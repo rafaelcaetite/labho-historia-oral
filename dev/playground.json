@@ -21,15 +21,14 @@
       },
       "options": { "activate": true, "targetFolderName": "labho" }
     },
-    { "step": "mkdir", "path": "/labho-dev" },
     {
       "step": "writeFile",
-      "path": "/labho-dev/seed.php",
+      "path": "/wordpress/wp-content/labho-seed.php",
       "data": {
         "resource": "url",
         "url": "https://raw.githubusercontent.com/rafaelcaetite/labho-historia-oral/main/dev/seed.php"
       }
     },
-    { "step": "runPHP", "code": "<?php require '/labho-dev/seed.php';" }
+    { "step": "runPHP", "code": "<?php require '/wordpress/wp-content/labho-seed.php';" }
   ]
 }
