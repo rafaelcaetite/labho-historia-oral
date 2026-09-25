@@ -1,0 +1,9 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/",
+  "preferredVersions": { "php": "8.3", "wp": "latest" },
+  "steps": [
+    { "step": "setSiteLanguage", "language": "pt_BR" },
+    { "step": "runPHP", "code": "<?php require '/labho-dev/seed.php';" }
+  ]
+}
