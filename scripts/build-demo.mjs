@@ -88,9 +88,12 @@ async function crawlAsset(path) {
 }
 
 console.log(`Gerando protótipo de ${origin} em ${outDir}/`);
-// esvazia em vez de apagar a pasta (no Windows ela pode estar em uso por um servidor ou pelo Explorer)
+// esvazia em vez de apagar a pasta (no Windows ela pode estar em uso por um servidor ou pelo Explorer);
+// .vercel guarda o vínculo com o projeto de deploy e precisa sobreviver ao rebuild
 await mkdir(outDir, { recursive: true });
-for (const entry of await readdir(outDir)) await rm(join(outDir, entry), { recursive: true, force: true });
+for (const entry of await readdir(outDir)) {
+  if (entry !== ".vercel") await rm(join(outDir, entry), { recursive: true, force: true });
+}
 while (pages.length || assets.length) {
   if (pages.length) await crawlPage(pages.shift());
   else await crawlAsset(assets.shift());
