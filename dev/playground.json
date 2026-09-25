@@ -1,0 +1,35 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "meta": {
+    "title": "LabHO — Laboratório de História Oral",
+    "description": "Tema LabHO com conteúdo de demonstração e acesso ao painel.",
+    "author": "rafaelcaetite"
+  },
+  "landingPage": "/wp-admin/",
+  "preferredVersions": { "php": "8.3", "wp": "latest" },
+  "features": { "networking": true },
+  "login": true,
+  "steps": [
+    { "step": "setSiteLanguage", "language": "pt_BR" },
+    {
+      "step": "installTheme",
+      "themeData": {
+        "resource": "git:directory",
+        "url": "https://github.com/rafaelcaetite/labho-historia-oral",
+        "ref": "main",
+        "path": "theme/labho"
+      },
+      "options": { "activate": true, "targetFolderName": "labho" }
+    },
+    { "step": "mkdir", "path": "/labho-dev" },
+    {
+      "step": "writeFile",
+      "path": "/labho-dev/seed.php",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/rafaelcaetite/labho-historia-oral/main/dev/seed.php"
+      }
+    },
+    { "step": "runPHP", "code": "<?php require '/labho-dev/seed.php';" }
+  ]
+}
