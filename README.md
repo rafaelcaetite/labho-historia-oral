@@ -2,7 +2,7 @@
 
 Tema WordPress e protótipo do site do Laboratório de História Oral do Departamento de História da Universidade Federal de Viçosa (UFV): um acervo público de entrevistas com pessoas negras e indígenas da Zona da Mata mineira e com quem construiu a universidade.
 
-**Protótipo:** [prototipo-historiaoral.vercel.app](https://prototipo-historiaoral.vercel.app)
+**Protótipo:** [prototipo-historiaoral.vercel.app](https://prototipo-historiaoral.vercel.app) · **Painel WordPress ao vivo:** [abrir no WordPress Playground](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/rafaelcaetite/labho-historia-oral/main/dev/playground.json)
 
 ![Página inicial](docs/screenshots/01-hero.jpeg)
 
@@ -67,6 +67,7 @@ Alguns detalhes de implementação:
 │           └── scene.js      Cena 3D das vozes (carregada só na home)
 ├── dev/
 │   ├── blueprint.json        WordPress local via Playground (PHP 8.3, pt-BR)
+│   ├── playground.json       Painel ao vivo no playground.wordpress.net
 │   └── seed.php              Conteúdo de demonstração (fictício)
 ├── scripts/
 │   ├── build-demo.mjs        Gera o protótipo estático a partir do WordPress local
@@ -104,6 +105,10 @@ npm run package      # gera dist/labho.zip para instalar em qualquer WordPress
 ```
 
 As alterações em `theme/labho/` aparecem ao recarregar a página. O conteúdo de demonstração é recriado a cada execução.
+
+### Painel ao vivo
+
+O link **Painel WordPress ao vivo**, no topo, abre um WordPress completo no navegador, já logado como administrador. O [`dev/playground.json`](dev/playground.json) instala o tema direto da branch `main` deste repositório e roda o mesmo `seed.php` do ambiente local. Cada visitante recebe uma instância própria e descartável: nada fica salvo nem afeta outras pessoas, e o primeiro carregamento leva de 20 a 40 segundos.
 
 ## Protótipo estático e deploy
 
