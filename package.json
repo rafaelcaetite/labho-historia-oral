@@ -1,0 +1,18 @@
+{
+  "name": "labho-historia-oral",
+  "version": "1.2.0",
+  "private": true,
+  "description": "Tema WordPress e protótipo do site do Laboratório de História Oral (DHI/UFV).",
+  "license": "GPL-2.0-or-later",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "npx --yes @wp-playground/cli@3 server --port=9400 --login --mount=./theme/labho:/wordpress/wp-content/themes/labho --mount=./dev:/labho-dev --blueprint=./dev/blueprint.json",
+    "demo:serve": "npx --yes @wp-playground/cli@3 server --port=9401 --mount=./theme/labho:/wordpress/wp-content/themes/labho --mount=./dev:/labho-dev --blueprint=./dev/blueprint.json",
+    "demo:build": "node scripts/build-demo.mjs http://127.0.0.1:9401 demo",
+    "package": "node scripts/package-theme.mjs",
+    "deploy": "vercel deploy demo --prod"
+  }
+}

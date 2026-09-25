@@ -1,0 +1,13 @@
+# Gerados
+/demo/
+/dist/
+node_modules/
+.vercel/
+
+# Material de trabalho do cliente (briefing e arquivos originais) — não versionar
+*.pdf
+/*.png
+
+# Sistema
+.DS_Store
+Thumbs.db
