@@ -59,7 +59,7 @@ Alguns detalhes de implementação:
 │   ├── front-page.php        Home: introdução, vozes, galeria, projetos, agenda
 │   ├── archive-*.php         Listas: acervo (projetos) e eventos
 │   ├── single-*.php          Projeto (abas + busca), entrevista, evento
-│   ├── page-*.php            Laboratório (Quem somos/Produções) e Contato
+│   ├── page-*.php            Sobre (Quem somos/Produções) e Contato
 │   └── assets/
 │       ├── css/main.css      Todo o CSS, organizado por seção, com tokens em :root
 │       └── js/

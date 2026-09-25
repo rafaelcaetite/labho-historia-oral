@@ -101,7 +101,7 @@ em { font-style: italic; font-weight: 400; }
 .nav__cta:hover svg { transform: translateX(3px); }
 .nav__toggle { display: none; font: 500 12px var(--sans); letter-spacing: .16em; text-transform: uppercase; padding: 0 var(--gut); height: 100%; }
 
-@media (max-width: 860px) {
+@media (max-width: 960px) {
   .nav { grid-template-columns: 1fr auto; }
   .nav__wm { grid-column: 1; grid-row: 1; justify-self: start; text-indent: 0; font-size: 11px; letter-spacing: .3em; }
   .home .nav__wm { opacity: 1; }

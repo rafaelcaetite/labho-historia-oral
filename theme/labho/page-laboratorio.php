@@ -4,8 +4,8 @@ get_header();
 while (have_posts()) : the_post();
   $prods = get_posts(['post_type' => 'producao', 'numberposts' => -1, 'orderby' => ['menu_order' => 'ASC', 'date' => 'DESC']]);
   labho_page_head([
-    'crumbs'  => ['Início' => home_url('/'), 'Laboratório' => ''],
-    'eyebrow' => 'Laboratório',
+    'crumbs'  => ['Início' => home_url('/'), 'Sobre' => ''],
+    'eyebrow' => 'Sobre',
     'title'   => get_post_field('post_title'),
     'lead'    => has_excerpt() ? get_the_excerpt() : 'Um espaço de pesquisa, ensino e extensão dedicado à história oral no Departamento de História da UFV.',
     'image'   => get_post_thumbnail_id(),

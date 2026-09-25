@@ -15,7 +15,7 @@ if (!reduce) {
 const hero = document.querySelector(".hero");
 const wm = hero?.querySelector("[data-wm]");
 const navWm = nav.querySelector(".nav__wm");
-const desktop = matchMedia("(min-width: 861px)");
+const desktop = matchMedia("(min-width: 961px)");
 if (wm && !reduce) {
   let sEnd = 0.3;
   const measure = () => { sEnd = navWm.offsetWidth / wm.offsetWidth || 0.3; };

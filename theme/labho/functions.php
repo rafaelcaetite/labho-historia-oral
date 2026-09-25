@@ -377,7 +377,8 @@ function labho_page_head($args) {
 // Menu usado enquanto nenhum for criado em Aparência › Menus
 function labho_menu_fallback() {
     $items = [
-        ['Laboratório', home_url('/laboratorio/'), is_page('laboratorio')],
+        ['Início', home_url('/'), is_front_page()],
+        ['Sobre', home_url('/laboratorio/'), is_page('laboratorio')],
         ['Acervo', get_post_type_archive_link('projeto'), is_post_type_archive('projeto') || is_singular(['projeto', 'entrevista'])],
         ['Eventos', get_post_type_archive_link('evento'), is_post_type_archive('evento') || is_singular('evento')],
         ['Contato', home_url('/contato/'), is_page('contato'), 'is-contato'], // no desktop vira o CTA à direita

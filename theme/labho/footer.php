@@ -12,7 +12,8 @@
       </div>
       <div>
         <h2 class="eyebrow">Navegar</h2>
-        <a href="<?php echo esc_url(home_url('/laboratorio/')); ?>">Laboratório</a>
+        <a href="<?php echo esc_url(home_url('/')); ?>">Início</a>
+        <a href="<?php echo esc_url(home_url('/laboratorio/')); ?>">Sobre</a>
         <a href="<?php echo esc_url(get_post_type_archive_link('projeto')); ?>">Acervo</a>
         <a href="<?php echo esc_url(get_post_type_archive_link('evento')); ?>">Eventos</a>
         <a href="<?php echo esc_url(home_url('/contato/')); ?>">Contato</a>

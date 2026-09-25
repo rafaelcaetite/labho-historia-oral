@@ -17,7 +17,7 @@ Arquivo para instalar: `labho.zip`, gerado com `npm run package` (fica em `dist/
 4. Em **Configurações › Leitura**, marque **Uma página estática** e escolha a página "Início".
 5. Em **Aparência › Personalizar › Contatos do laboratório**, preencha o e-mail (labho.dhi@ufv.br), o endereço, o Instagram e o YouTube.
 6. Em **Aparência › Widgets › Rodapé — Apoio (logos)**, adicione um bloco **Imagem** para cada logo de apoio. O ideal é usar PNG ou SVG com fundo transparente.
-7. *(Opcional)* Em **Aparência › Menus**, monte o menu "Menu principal". Sem menu, o site já mostra Laboratório · Acervo · Eventos · Contato.
+7. *(Opcional)* Em **Aparência › Menus**, monte o menu "Menu principal". Sem menu, o site já mostra Início · Sobre · Acervo · Eventos · Contato.
 8. Cadastre a equipe em **Usuários** com o papel **Editor**. Esse papel publica conteúdo, mas não mexe no tema nem nos plugins.
 
 > Mantenha o WordPress e os plugins atualizados. O tema não depende de nenhum plugin, então as atualizações não quebram o site.
@@ -60,7 +60,7 @@ Menu **Entrevistas › Adicionar**:
 Menu **Eventos**: título, imagem destacada (banner), resumo, conteúdo (descrição e galeria), e o painel **Dados do evento** (data, local, link da gravação e pasta de certificados no Drive). A lista de eventos se ordena sozinha pela data.
 
 ### Produções
-Menu **Produções**: título, imagem, resumo, tipo (YouTube, Site, Drive...) e link. As produções aparecem na aba "Produções" da página Laboratório.
+Menu **Produções**: título, imagem, resumo, tipo (YouTube, Site, Drive...) e link. As produções aparecem na aba "Produções" da página Sobre.
 
 ### Dicas
 - Fotos: use JPG de até cerca de 2000 px de largura. O WordPress gera as versões menores sozinho.
