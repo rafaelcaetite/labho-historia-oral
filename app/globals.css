@@ -116,13 +116,16 @@ em { font-style: italic; font-weight: 400; }
   padding-left: var(--gut); background: var(--sand); border-bottom: 1px solid var(--line);
 }
 /* Na home, o cabeçalho fica oculto por padrão no hero e entra suavemente ao rolar */
-.nav.nav--home {
+.nav.nav--home,
+body:has(.home-page) .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   transform: translateY(-100%); opacity: 0; pointer-events: none;
   transition: transform .45s cubic-bezier(0.16, 1, 0.3, 1), opacity .35s ease;
 }
 .nav.nav--home.is-scrolled,
-.nav.nav--home.is-open {
+.nav.nav--home.is-open,
+body:has(.home-page) .nav.is-scrolled,
+body:has(.home-page) .nav.is-open {
   transform: translateY(0); opacity: 1; pointer-events: auto;
 }
 .nav__list { display: flex; gap: clamp(18px, 2vw, 32px); list-style: none; margin: 0; padding: 0; }
@@ -133,9 +136,11 @@ em { font-style: italic; font-weight: 400; }
 .nav__wm { padding: 14px 0; font-size: 12.5px; color: var(--ink-2); transition: opacity .35s var(--ease), color .3s; }
 .nav__wm:hover { color: var(--sun); }
 .home-page .nav__wm,
-.nav.nav--home .nav__wm { opacity: 0; }
+.nav.nav--home .nav__wm,
+body:has(.home-page) .nav .nav__wm { opacity: 0; }
 .home-page .nav.wm-on .nav__wm,
-.nav.nav--home.wm-on .nav__wm { opacity: 1; }
+.nav.nav--home.wm-on .nav__wm,
+body:has(.home-page) .nav.wm-on .nav__wm { opacity: 1; }
 .nav__end { justify-self: end; align-self: stretch; display: flex; align-items: center; border-left: 1px solid var(--line); padding: 0 var(--gut); }
 .nav__cta { display: inline-flex; align-items: center; gap: 12px; font-size: 17px; color: var(--ink); transition: color .3s; }
 .nav__cta svg { transition: transform .4s var(--ease); }
