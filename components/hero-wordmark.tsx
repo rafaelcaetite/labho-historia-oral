@@ -12,10 +12,12 @@ export function HeroWordmark({
 }: HeroWordmarkProps) {
   const heroRef = useRef<HTMLElement>(null);
   const wmRef = useRef<HTMLHeadingElement>(null);
+  const scrollBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const hero = heroRef.current;
     const wm = wmRef.current;
+    const scrollBtn = scrollBtnRef.current;
     const nav = document.getElementById("nav");
     const navWm = nav?.querySelector(".nav__wm") as HTMLElement | null;
     const prefersReducedMotion = window.matchMedia(
@@ -23,9 +25,22 @@ export function HeroWordmark({
     ).matches;
     const desktop = window.matchMedia("(min-width: 961px)");
 
+    const updateScrollIndicator = () => {
+      const y = window.scrollY || document.documentElement.scrollTop;
+      const opacity = Math.max(0, 1 - y / 140);
+      if (scrollBtn) {
+        scrollBtn.style.opacity = String(opacity);
+        scrollBtn.style.pointerEvents = opacity <= 0.05 ? "none" : "auto";
+      }
+    };
+
     if (!hero || !wm || !nav || prefersReducedMotion) {
       nav?.classList.add("wm-on");
-      return;
+      updateScrollIndicator();
+      window.addEventListener("scroll", updateScrollIndicator, { passive: true });
+      return () => {
+        window.removeEventListener("scroll", updateScrollIndicator);
+      };
     }
 
     let sEnd = 0.3;
@@ -36,6 +51,8 @@ export function HeroWordmark({
     };
 
     const update = () => {
+      updateScrollIndicator();
+
       if (!desktop.matches) {
         wm.classList.remove("is-fixed", "is-gone");
         nav.classList.add("wm-on");
@@ -81,6 +98,18 @@ export function HeroWordmark({
       nav.classList.remove("wm-on");
     };
   }, []);
+
+  const handleScrollDown = () => {
+    const nextSection = document.querySelector(".intro") as HTMLElement | null;
+    if (nextSection) {
+      const nav = document.getElementById("nav");
+      const navH = nav?.offsetHeight || 60;
+      const targetY = nextSection.getBoundingClientRect().top + window.scrollY - navH;
+      window.scrollTo({ top: targetY, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
+    }
+  };
 
   let globalIndex = 0;
 
@@ -128,6 +157,27 @@ export function HeroWordmark({
           </span>
         ))}
       </h1>
+
+      <button
+        ref={scrollBtnRef}
+        type="button"
+        onClick={handleScrollDown}
+        className="hero__scroll"
+        aria-label="Rolar para o conteúdo"
+      >
+        <span className="hero__scroll-label">Role</span>
+        <span className="hero__scroll-icon" aria-hidden="true">
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
+            <path
+              d="M5 1V10.5M5 10.5L1.5 7M5 10.5L8.5 7"
+              stroke="currentColor"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
+      </button>
     </section>
   );
 }

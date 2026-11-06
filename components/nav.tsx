@@ -10,6 +10,7 @@ interface NavProps {
 
 export function Nav({ siteName = "Laboratório de História Oral" }: NavProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
 
@@ -17,6 +18,27 @@ export function Nav({ siteName = "Laboratório de História Oral" }: NavProps) {
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
+
+  // Na página inicial, a navbar só aparece ao rolar para baixo
+  useEffect(() => {
+    if (!isHome) {
+      setIsScrolled(true);
+      return;
+    }
+
+    const handleScroll = () => {
+      const y = window.scrollY || document.documentElement.scrollTop;
+      setIsScrolled(y > 30);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isHome]);
+
+  if (pathname?.startsWith("/studio")) {
+    return null;
+  }
 
   const navItems = [
     { label: "Início", href: "/" },
@@ -31,8 +53,15 @@ export function Nav({ siteName = "Laboratório de História Oral" }: NavProps) {
     return pathname.startsWith(href);
   };
 
+  const navClasses = [
+    "nav",
+    isHome ? "nav--home" : "",
+    isHome && isScrolled ? "is-scrolled" : "",
+    isOpen ? "is-open" : "",
+  ].filter(Boolean).join(" ");
+
   return (
-    <header className={`nav ${isOpen ? "is-open" : ""}`} id="nav">
+    <header className={navClasses} id="nav">
       <button
         className="nav__toggle"
         aria-expanded={isOpen}

@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import type { SiteSettings } from "@/lib/cms/types";
 
 interface FooterProps {
@@ -7,6 +10,9 @@ interface FooterProps {
 }
 
 export function Footer({ settings }: FooterProps) {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/studio")) return null;
+
   const quoteLines = (settings.footerQuote || "Toda memória\ncomeça com uma escuta.").split("\n");
 
   return (
