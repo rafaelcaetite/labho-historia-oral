@@ -1,8 +1,14 @@
 # Gerados
 /demo/
 /dist/
+/.next/
 node_modules/
 .vercel/
+*.tsbuildinfo
+
+# Variáveis locais
+.env.local
+.env.*.local
 
 # Material de trabalho do cliente (briefing e arquivos originais) — não versionar
 *.pdf
