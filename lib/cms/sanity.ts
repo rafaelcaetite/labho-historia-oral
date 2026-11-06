@@ -2,6 +2,17 @@ import { createClient, type QueryParams } from "@sanity/client";
 import { draftMode } from "next/headers";
 
 import {
+  contatoPageFixture,
+  entrevistasFixture,
+  eventosFixture,
+  fixtureSource,
+  homePageFixture,
+  producoesFixture,
+  projetosFixture,
+  siteSettingsFixture,
+  sobrePageFixture,
+} from "./fixtures";
+import {
   sanityApiVersion,
   sanityDataset,
   sanityEstaConfigurado,
@@ -87,18 +98,7 @@ export const sanitySource: ContentSource = {
         }
       }`,
     );
-    return (
-      data ?? {
-        siteName: "LabHO — Laboratório de História Oral",
-        slogan: "Acervo de entrevistas do Laboratório de História Oral do Departamento de História da UFV.",
-        email: "labho.dhi@ufv.br",
-        endereco: "Departamento de História — UFV\nAv. P. H. Rolfs, s/n\nViçosa, MG · 36570-900",
-        instagram: "https://instagram.com/",
-        youtube: "https://youtube.com/",
-        footerQuote: "Toda memória\ncomeça com uma escuta.",
-        apoioLogos: [],
-      }
-    );
+    return data ?? siteSettingsFixture;
   },
 
   async getHomePage() {
@@ -119,25 +119,7 @@ export const sanitySource: ContentSource = {
         "agendaText": coalesce(agendaText, "Atividades abertas à comunidade para pensar a memória como prática coletiva.")
       }`,
     );
-    return (
-      data ?? {
-        heroTitleLines: ["Laboratório de", "História Oral"],
-        introEyebrow: "Laboratório de História Oral",
-        introTitle: "Vozes que *atravessam* o tempo.",
-        introLead:
-          "Registramos, preservamos e devolvemos à sociedade as memórias de quem raramente foi ouvido pelos arquivos oficiais.",
-        introText: "",
-        introImage: null,
-        voicesTitle: "Quem conta, *faz história.*",
-        voicesHint: "Role para ouvir · clique em alguém",
-        galleryTitle: "Imagens da *memória*",
-        gallery: [],
-        agendaEyebrow: "Agenda",
-        agendaTitle: "Encontros, oficinas e *rodas de conversa.*",
-        agendaText:
-          "Atividades abertas à comunidade para pensar a memória como prática coletiva.",
-      }
-    );
+    return data ?? homePageFixture;
   },
 
   async getSobrePage() {
@@ -151,17 +133,7 @@ export const sanitySource: ContentSource = {
         "producoesIntro": coalesce(producoesIntro, "Vídeos, publicações e materiais produzidos a partir do acervo e das atividades do laboratório.")
       }`,
     );
-    return (
-      data ?? {
-        title: "Quem somos",
-        lead: "Um espaço de pesquisa, ensino e extensão dedicado à história oral no Departamento de História da UFV.",
-        body: "",
-        image: null,
-        gallery: [],
-        producoesIntro:
-          "Vídeos, publicações e materiais produzidos a partir do acervo e das atividades do laboratório.",
-      }
-    );
+    return data ?? sobrePageFixture;
   },
 
   async getContatoPage() {
@@ -173,18 +145,11 @@ export const sanitySource: ContentSource = {
         "image": image${IMAGEM_PROJ}
       }`,
     );
-    return (
-      data ?? {
-        title: "Vamos *conversar*",
-        lead: "Escreva para propor parcerias, doar acervos ou participar das atividades do laboratório.",
-        body: "",
-        image: null,
-      }
-    );
+    return data ?? contatoPageFixture;
   },
 
   async getProjetos() {
-    return buscar<Projeto[]>(
+    const list = await buscar<Projeto[]>(
       /* groq */ `*[_type == "projeto" && defined(slug.current)] | order(order asc, _createdAt asc){
         _id,
         title,
@@ -196,6 +161,7 @@ export const sanitySource: ContentSource = {
         "order": coalesce(order, 1)
       }`,
     );
+    return list.length > 0 ? list : projetosFixture;
   },
 
   async getProjetoBySlug(slug: string) {
@@ -212,7 +178,9 @@ export const sanitySource: ContentSource = {
       }`,
       { slug },
     );
-    if (!projeto) return null;
+    if (!projeto) {
+      return fixtureSource.getProjetoBySlug(slug);
+    }
 
     const entrevistas = await buscar<Entrevista[]>(
       /* groq */ `*[_type == "entrevista" && projeto._ref == $projetoId && defined(slug.current)] | order(title asc){
@@ -236,7 +204,7 @@ export const sanitySource: ContentSource = {
   },
 
   async getEntrevistas() {
-    return buscar<Entrevista[]>(
+    const list = await buscar<Entrevista[]>(
       /* groq */ `*[_type == "entrevista" && defined(slug.current)] | order(title asc){
         _id,
         title,
@@ -252,10 +220,11 @@ export const sanitySource: ContentSource = {
         "gallery": coalesce(gallery[]{ "caption": caption, "image": image${IMAGEM_PROJ} }, [])
       }`,
     );
+    return list.length > 0 ? list : entrevistasFixture;
   },
 
   async getEntrevistaBySlug(slug: string) {
-    return buscar<Entrevista | null>(
+    const item = await buscar<Entrevista | null>(
       /* groq */ `*[_type == "entrevista" && slug.current == $slug][0]{
         _id,
         title,
@@ -272,6 +241,7 @@ export const sanitySource: ContentSource = {
       }`,
       { slug },
     );
+    return item ?? fixtureSource.getEntrevistaBySlug(slug);
   },
 
   async getVozesDestaque(): Promise<VozDestaque[]> {
@@ -291,15 +261,18 @@ export const sanitySource: ContentSource = {
       }`,
     );
 
-    return list.map((item) => ({
-      q: item.destaque,
-      by: `${item.title}${item.projetoTitle ? ` · ${item.projetoTitle}` : ""}`,
-      url: `/entrevista/${item.slug}`,
-    }));
+    if (list.length > 0) {
+      return list.map((item) => ({
+        q: item.destaque,
+        by: `${item.title}${item.projetoTitle ? ` · ${item.projetoTitle}` : ""}`,
+        url: `/entrevista/${item.slug}`,
+      }));
+    }
+    return fixtureSource.getVozesDestaque();
   },
 
   async getEventos() {
-    return buscar<Evento[]>(
+    const list = await buscar<Evento[]>(
       /* groq */ `*[_type == "evento" && defined(slug.current)] | order(data desc){
         _id,
         title,
@@ -314,10 +287,11 @@ export const sanitySource: ContentSource = {
         "gallery": coalesce(gallery[]{ "caption": caption, "image": image${IMAGEM_PROJ} }, [])
       }`,
     );
+    return list.length > 0 ? list : eventosFixture;
   },
 
   async getEventoBySlug(slug: string) {
-    return buscar<Evento | null>(
+    const item = await buscar<Evento | null>(
       /* groq */ `*[_type == "evento" && slug.current == $slug][0]{
         _id,
         title,
@@ -333,10 +307,11 @@ export const sanitySource: ContentSource = {
       }`,
       { slug },
     );
+    return item ?? fixtureSource.getEventoBySlug(slug);
   },
 
   async getProximoEvento() {
-    return buscar<Evento | null>(
+    const item = await buscar<Evento | null>(
       /* groq */ `*[_type == "evento" && defined(slug.current)] | order(data desc)[0]{
         _id,
         title,
@@ -351,10 +326,11 @@ export const sanitySource: ContentSource = {
         "gallery": coalesce(gallery[]{ "caption": caption, "image": image${IMAGEM_PROJ} }, [])
       }`,
     );
+    return item ?? fixtureSource.getProximoEvento();
   },
 
   async getProducoes() {
-    return buscar<Producao[]>(
+    const list = await buscar<Producao[]>(
       /* groq */ `*[_type == "producao"] | order(order asc, _createdAt asc){
         _id,
         title,
@@ -365,5 +341,6 @@ export const sanitySource: ContentSource = {
         "order": coalesce(order, 1)
       }`,
     );
+    return list.length > 0 ? list : producoesFixture;
   },
 };
