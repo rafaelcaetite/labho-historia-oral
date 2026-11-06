@@ -407,6 +407,33 @@ main { min-height: 60vh; outline: none; animation: fade .8s var(--ease) both; }
 .cursor.big { width: 52px; height: 52px; margin: -26px 0 0 -26px; opacity: .3; }
 @media (hover: none), (pointer: coarse) { .cursor { display: none; } }
 
+/* ================= Sanity Studio ================= */
+body:has(#sanity),
+html:has(#sanity) {
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+}
+
+body:has(#sanity) #main {
+  min-height: 100vh !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  animation: none !important;
+  overflow: hidden !important;
+}
+
+body:has(#sanity) .skip {
+  display: none !important;
+}
+
+#sanity,
+#sanity * {
+  overscroll-behavior: contain;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; transition-duration: .01ms !important; }
   .rv, .split .w > span, .hero__wm .l, .hero__logo { opacity: 1; transform: none; filter: none; }

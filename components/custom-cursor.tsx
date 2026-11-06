@@ -1,11 +1,16 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 export function CustomCursor() {
+  const pathname = usePathname();
+  const isStudio = pathname?.startsWith("/studio");
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (isStudio) return;
+
     const isFinePointer = window.matchMedia(
       "(hover: hover) and (pointer: fine)",
     ).matches;
@@ -49,7 +54,11 @@ export function CustomCursor() {
       window.removeEventListener("mouseover", onMouseOver);
       cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [isStudio]);
+
+  if (isStudio) {
+    return null;
+  }
 
   return <div ref={cursorRef} className="cursor" aria-hidden="true" />;
 }

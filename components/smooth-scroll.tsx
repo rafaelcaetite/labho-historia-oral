@@ -1,10 +1,19 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
 export function SmoothScroll() {
+  const pathname = usePathname();
+  const isStudio = pathname?.startsWith("/studio");
+
   useEffect(() => {
+    if (isStudio) {
+      document.documentElement.classList.remove("lenis", "lenis-smooth");
+      return;
+    }
+
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -53,8 +62,13 @@ export function SmoothScroll() {
       observer.disconnect();
       if (rafId) cancelAnimationFrame(rafId);
       lenis?.destroy();
+      document.documentElement.classList.remove("lenis", "lenis-smooth");
     };
-  }, []);
+  }, [isStudio]);
+
+  if (isStudio) {
+    return null;
+  }
 
   return null;
 }

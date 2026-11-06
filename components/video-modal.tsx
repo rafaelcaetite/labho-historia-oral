@@ -1,12 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export function VideoModal() {
+  const pathname = usePathname();
+  const isStudio = pathname?.startsWith("/studio");
   const [activeYtId, setActiveYtId] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
+    if (isStudio) return;
+
     const handleGlobalClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest("[data-yt]");
       if (target) {
@@ -20,9 +25,11 @@ export function VideoModal() {
 
     document.addEventListener("click", handleGlobalClick);
     return () => document.removeEventListener("click", handleGlobalClick);
-  }, []);
+  }, [isStudio]);
 
   useEffect(() => {
+    if (isStudio) return;
+
     const dialog = dialogRef.current;
     if (!dialog) return;
 
@@ -35,11 +42,15 @@ export function VideoModal() {
         dialog.close();
       }
     }
-  }, [activeYtId]);
+  }, [activeYtId, isStudio]);
 
   const handleClose = () => {
     setActiveYtId(null);
   };
+
+  if (isStudio) {
+    return null;
+  }
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
     if (e.target === dialogRef.current) {
