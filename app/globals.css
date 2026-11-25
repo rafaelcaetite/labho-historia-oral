@@ -52,7 +52,7 @@ em { font-style: italic; font-weight: 400; }
 .hero__art img { object-fit: cover; object-position: 50% 40%; }
 .hero__art .hero__logo {
   position: absolute; top: clamp(14px, 2vw, 32px); right: clamp(14px, 2.2vw, 36px);
-  width: clamp(72px, 8.5vw, 150px); height: auto; filter: drop-shadow(0 0 5px rgb(11 20 64 / .4));
+  width: clamp(60px, 6.8vw, 120px); height: auto; filter: drop-shadow(0 0 5px rgb(11 20 64 / .4));
 }
 .hero__band {
   position: relative; min-height: clamp(72px, 9vh, 96px); background: var(--amber); color: var(--ink);
@@ -149,9 +149,9 @@ body:has(.home-page) .nav.is-open {
 .home-page .nav__wm,
 .nav.nav--home .nav__wm,
 body:has(.home-page) .nav .nav__wm { opacity: 0; }
-.home-page .nav.wm-on .nav__wm,
-.nav.nav--home.wm-on .nav__wm,
-body:has(.home-page) .nav.wm-on .nav__wm { opacity: 1; }
+.home-page .nav[data-wm-on] .nav__wm,
+.nav.nav--home[data-wm-on] .nav__wm,
+body:has(.home-page) .nav[data-wm-on] .nav__wm { opacity: 1; }
 .nav__end { justify-self: end; align-self: stretch; display: flex; align-items: center; border-left: 1px solid var(--line); padding: 0 var(--gut); }
 .nav__cta { display: inline-flex; align-items: center; gap: 12px; font-size: 17px; color: var(--ink); transition: color .3s; }
 .nav__cta svg { transition: transform .4s var(--ease); }

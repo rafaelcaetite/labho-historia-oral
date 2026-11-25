@@ -25,6 +25,7 @@ export function HeroWordmark({
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    // atributo, e não classe: o React reescreve o className do Nav e apagaria a classe
     const desktop = window.matchMedia("(min-width: 961px)");
 
     const updateScrollIndicator = () => {
@@ -37,7 +38,7 @@ export function HeroWordmark({
     };
 
     if (!hero || !wm || !band || !nav || prefersReducedMotion) {
-      nav?.classList.add("wm-on");
+      nav?.setAttribute("data-wm-on", "");
       updateScrollIndicator();
       window.addEventListener("scroll", updateScrollIndicator, { passive: true });
       return () => {
@@ -57,7 +58,7 @@ export function HeroWordmark({
 
       if (!desktop.matches) {
         wm.classList.remove("is-fixed", "is-gone");
-        nav.classList.add("wm-on");
+        nav.setAttribute("data-wm-on", "");
         return;
       }
 
@@ -73,14 +74,15 @@ export function HeroWordmark({
       wm.style.setProperty("--y", `${Math.max(bandCenter, navCenter)}px`);
       wm.style.setProperty("--s", (1 + (sEnd - 1) * t).toFixed(4));
       wm.classList.toggle("is-gone", t >= 1);
-      nav.classList.toggle("wm-on", t >= 1);
+      nav.toggleAttribute("data-wm-on", t >= 1);
     };
 
     window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", () => {
+    const onResize = () => {
       measure();
       update();
-    });
+    };
+    window.addEventListener("resize", onResize);
 
     if (document.fonts) {
       document.fonts.ready.then(() => {
@@ -94,7 +96,8 @@ export function HeroWordmark({
 
     return () => {
       window.removeEventListener("scroll", update);
-      nav.classList.remove("wm-on");
+      window.removeEventListener("resize", onResize);
+      nav.removeAttribute("data-wm-on");
     };
   }, []);
 
