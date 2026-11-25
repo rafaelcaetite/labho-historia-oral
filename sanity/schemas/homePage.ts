@@ -66,6 +66,26 @@ export const homePageType = defineType({
       initialValue: "Role para ouvir · clique em alguém",
     }),
     defineField({
+      name: "vozesDestaque",
+      title: "Entrevistas que viram bonequinhos",
+      type: "array",
+      description:
+        "Escolha 2 ou mais entrevistas (só aparecem as que têm fala em destaque) e arraste para ordenar. Vazio = as 7 primeiras entrevistas com fala de verdade (só um ponto não conta).",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "entrevista" }],
+          options: { filter: 'length(destaque) > 4' },
+        },
+      ],
+      validation: (Rule) => [
+        Rule.unique(),
+        Rule.custom((v) =>
+          Array.isArray(v) && v.length === 1 ? "Escolha pelo menos 2 (com 1 só, vale a lista padrão)." : true,
+        ).warning(),
+      ],
+    }),
+    defineField({
       name: "galleryTitle",
       title: "Título do Carrossel de Fotos",
       type: "string",

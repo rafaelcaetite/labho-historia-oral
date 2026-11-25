@@ -3,12 +3,12 @@ import Image from "next/image";
 import type { CmsImage } from "@/lib/cms/types";
 
 const PALETTE = [
-  ["#9C5A36", "#2A1911"],
-  ["#23324A", "#0E1420"],
-  ["#C8923A", "#3A2610"],
-  ["#6B3F26", "#170E09"],
-  ["#4E5A3A", "#1A1F12"],
-  ["#A9502B", "#2B150B"],
+  ["#B3160C", "#3A0805"],
+  ["#1E4FC4", "#0B1440"],
+  ["#E8A21C", "#4A2E05"],
+  ["#1F7A34", "#0A2A12"],
+  ["#F3731B", "#0B1440"],
+  ["#6E1010", "#0B1440"],
 ];
 
 interface MediaPlaceholderProps {

@@ -12,11 +12,13 @@ export function HeroWordmark({
 }: HeroWordmarkProps) {
   const heroRef = useRef<HTMLElement>(null);
   const wmRef = useRef<HTMLHeadingElement>(null);
+  const bandRef = useRef<HTMLDivElement>(null);
   const scrollBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const hero = heroRef.current;
     const wm = wmRef.current;
+    const band = bandRef.current;
     const scrollBtn = scrollBtnRef.current;
     const nav = document.getElementById("nav");
     const navWm = nav?.querySelector(".nav__wm") as HTMLElement | null;
@@ -34,7 +36,7 @@ export function HeroWordmark({
       }
     };
 
-    if (!hero || !wm || !nav || prefersReducedMotion) {
+    if (!hero || !wm || !band || !nav || prefersReducedMotion) {
       nav?.classList.add("wm-on");
       updateScrollIndicator();
       window.addEventListener("scroll", updateScrollIndicator, { passive: true });
@@ -60,18 +62,15 @@ export function HeroWordmark({
       }
 
       const top0 = parseFloat(getComputedStyle(nav).top) || 0;
-      const heroBottom = hero.getBoundingClientRect().bottom;
-      const t = Math.min(
-        1,
-        Math.max(0, 1 - (heroBottom - top0) / hero.offsetHeight),
-      );
-      const navH = nav.offsetHeight;
+      // o wordmark fica no centro da faixa até ela encontrar o centro do cabeçalho
+      const navCenter = top0 + nav.offsetHeight / 2;
+      const heroRect = hero.getBoundingClientRect();
+      const bandCenter = heroRect.bottom - band.offsetHeight / 2;
+      const travel = heroRect.height - band.offsetHeight / 2 - navCenter;
+      const t = Math.min(1, Math.max(0, 1 - (bandCenter - navCenter) / travel));
 
       wm.classList.add("is-fixed");
-      wm.style.setProperty(
-        "--y",
-        `${(top0 + Math.max(heroBottom, top0)) / 2 + (navH / 2) * t}px`,
-      );
+      wm.style.setProperty("--y", `${Math.max(bandCenter, navCenter)}px`);
       wm.style.setProperty("--s", (1 + (sEnd - 1) * t).toFixed(4));
       wm.classList.toggle("is-gone", t >= 1);
       nav.classList.toggle("wm-on", t >= 1);
@@ -115,23 +114,17 @@ export function HeroWordmark({
 
   return (
     <section ref={heroRef} className="hero" aria-label="Laboratório de História Oral">
-      <a
-        className="hero__logo"
-        href="https://www.ufv.br/"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="UFV — 100 anos, 1926–2026"
-      >
+      <div className="hero__art">
         <Image
-          src="/img/ufv100-branco.png"
-          width={1168}
-          height={509}
-          alt="UFV — 100 anos, 1926–2026"
+          src="/img/banner-labho.jpg"
+          alt="Pintura do Laboratório de História Oral: pessoas de gerações diferentes reunidas em torno da escuta e da memória"
+          fill
           priority
-          style={{ width: "auto", height: "clamp(40px, 4.4vw, 68px)" }}
+          sizes="100vw"
         />
-      </a>
+      </div>
 
+      <div ref={bandRef} className="hero__band">
       <h1 ref={wmRef} className="hero__wm" data-wm aria-label={lines.join(" ")}>
         {lines.map((line, lineIdx) => (
           <span key={lineIdx} className="wm__line" aria-hidden="true">
@@ -178,6 +171,7 @@ export function HeroWordmark({
           </svg>
         </span>
       </button>
+      </div>
     </section>
   );
 }

@@ -55,6 +55,8 @@ export function VoicesSection({
   const currentDisplay = String(activeIndex + 1).padStart(2, "0");
   const totalDisplay = String(vozes.length).padStart(2, "0");
 
+  const [hintBefore, hintAfter] = hint.split(/clique(.*)/s);
+
   return (
     <section ref={sectionRef} className="voices" aria-label="Vozes do acervo">
       <div ref={stageRef} className="voices__stage">
@@ -68,9 +70,14 @@ export function VoicesSection({
           </div>
         </div>
         <p className="voices__hint">
-          {hint.replace("clique", "")}
-          <span className="on-hover">clique</span>
-          <span className="on-touch">toque</span> em alguém
+          {hintBefore}
+          {hintAfter !== undefined && (
+            <>
+              <span className="on-hover">clique</span>
+              <span className="on-touch">toque</span>
+              {hintAfter}
+            </>
+          )}
         </p>
         <div className="voices__bar">
           <i />

@@ -34,11 +34,10 @@ export const entrevistaType = defineType({
     }),
     defineField({
       name: "destaque",
-      title: "Fala em destaque (alimenta os balões da página inicial e a cena 3D)",
+      title: "Fala em destaque (balão do bonequinho)",
       type: "text",
       rows: 2,
-      description: "Uma frase marcante da entrevista dita pela pessoa.",
-      validation: (Rule) => Rule.required(),
+      description: "Uma frase marcante dita pela pessoa. Ter fala não coloca a entrevista sozinha na cena 3D: escolha quais viram bonequinhos em Página inicial > Entrevistas que viram bonequinhos.",
     }),
     defineField({
       name: "photo",

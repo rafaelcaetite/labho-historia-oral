@@ -64,24 +64,8 @@ export function Footer({ settings }: FooterProps) {
         </div>
       </div>
 
-      <div className="foot__apoio">
-        <a
-          className="foot__ufv"
-          href="https://www.ufv.br/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="UFV — 100 anos, 1926–2026"
-        >
-          <Image
-            src="/img/ufv100-laranja.png"
-            width={420}
-            height={183}
-            alt="UFV — 100 anos, 1926–2026"
-            style={{ width: "auto", height: "clamp(64px, 7vw, 100px)" }}
-          />
-        </a>
-
-        {settings.apoioLogos && settings.apoioLogos.length > 0 && (
+      {settings.apoioLogos && settings.apoioLogos.length > 0 && (
+        <div className="foot__apoio">
           <div>
             <h2 className="eyebrow">Apoio</h2>
             <div className="logos">
@@ -90,9 +74,8 @@ export function Footer({ settings }: FooterProps) {
                   <Image
                     src={apoio.image.url}
                     alt={apoio.image.alt || apoio.title}
-                    width={140}
-                    height={44}
-                    style={{ height: "44px", width: "auto" }}
+                    width={180}
+                    height={80}
                   />
                 );
 
@@ -115,8 +98,8 @@ export function Footer({ settings }: FooterProps) {
               })}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </footer>
   );
 }

@@ -19,16 +19,7 @@ export const siteSettingsFixture: SiteSettings = {
   instagram: "https://instagram.com/",
   youtube: "https://youtube.com/",
   footerQuote: "Toda memória\ncomeça com uma escuta.",
-  apoioLogos: [
-    {
-      title: "UFV — 100 anos (1926–2026)",
-      image: {
-        url: "/img/ufv100-laranja.png",
-        alt: "UFV — 100 anos, 1926–2026",
-      },
-      url: "https://www.ufv.br/",
-    },
-  ],
+  apoioLogos: [],
 };
 
 export const homePageFixture: HomePageData = {

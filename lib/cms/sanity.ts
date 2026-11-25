@@ -245,21 +245,29 @@ export const sanitySource: ContentSource = {
   },
 
   async getVozesDestaque(): Promise<VozDestaque[]> {
-    const list = await buscar<
-      Array<{
-        title: string;
-        destaque: string;
-        slug: string;
-        projetoTitle?: string;
-      }>
-    >(
-      /* groq */ `*[_type == "entrevista" && defined(slug.current) && defined(destaque) && destaque != ""]{
-        title,
-        destaque,
-        "slug": slug.current,
-        "projetoTitle": projeto->title
+    type Item = {
+      title: string;
+      destaque: string;
+      slug: string;
+      projetoTitle?: string;
+    } | null;
+    const proj = /* groq */ `{
+      title,
+      destaque,
+      "slug": slug.current,
+      "projetoTitle": projeto->title
+    }`;
+    const res = await buscar<{ escolhidas: Item[] | null; padrao: Item[] | null }>(
+      /* groq */ `{
+        "escolhidas": *[_type == "homePage"][0].vozesDestaque[]->${proj},
+        "padrao": *[_type == "entrevista" && defined(slug.current) && length(destaque) > 4][0...7]${proj}
       }`,
     );
+
+    // refs quebradas chegam como null; sem slug ou com fala de enchimento (".") não vira boneco
+    const valido = (i: Item): i is NonNullable<Item> => !!i?.slug && (i.destaque?.length ?? 0) > 4;
+    const escolhidas = (res?.escolhidas ?? []).filter(valido);
+    const list = escolhidas.length >= 2 ? escolhidas : (res?.padrao ?? []).filter(valido);
 
     if (list.length > 0) {
       return list.map((item) => ({

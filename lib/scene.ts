@@ -3,14 +3,14 @@ import * as THREE from "three";
 const HAIR = "#17110D";
 const GREY = "#CFC9C0";
 const CLOTH = [
-  "#A9502B",
-  "#23324A",
-  "#C8923A",
-  "#E6DCCB",
-  "#4E5A3A",
-  "#7C2E22",
-  "#2F2A26",
-  "#B98A5E",
+  "#B3160C",
+  "#1E4FC4",
+  "#E8A21C",
+  "#F3731B",
+  "#1F7A34",
+  "#6E1010",
+  "#0B1440",
+  "#FFE3B3",
 ];
 const STYLES = ["afro", "turbante", "curto", "trancas", "coque", "curto", "afro"];
 const DARK = [
@@ -26,13 +26,13 @@ const LIGHT = ["#E7C3A3", "#D9A988"];
 const GAP = 2.3;
 
 const CAST = [
-  { skin: "#3E2419", style: "afro", top: "#A9502B", bottom: "#2F2A26", dress: true },
-  { skin: "#5C3A26", style: "curto", top: "#23324A", bottom: "#E6DCCB", hair: GREY, elder: true },
-  { skin: "#84563A", style: "turbante", top: "#C8923A", bottom: "#2F2A26", dress: true },
-  { skin: "#E7C3A3", style: "curto", top: "#4E5A3A", bottom: "#2F2A26", hair: "#6B4A2E" },
-  { skin: "#4B2D1F", style: "coque", top: "#7C2E22", bottom: "#2F2A26", hair: GREY, elder: true, dress: true },
-  { skin: "#9A6844", style: "trancas", top: "#2F2A26", bottom: "#E6DCCB" },
-  { skin: "#6E4430", style: "afro", top: "#B98A5E", bottom: "#2F2A26" },
+  { skin: "#3E2419", style: "afro", top: "#B3160C", bottom: "#0B1440", dress: true },
+  { skin: "#5C3A26", style: "curto", top: "#1E4FC4", bottom: "#0B1440", hair: GREY, elder: true },
+  { skin: "#84563A", style: "turbante", top: "#E8A21C", bottom: "#0B1440", dress: true },
+  { skin: "#E7C3A3", style: "curto", top: "#1F7A34", bottom: "#0B1440", hair: "#6B4A2E" },
+  { skin: "#4B2D1F", style: "coque", top: "#6E1010", bottom: "#0B1440", hair: GREY, elder: true, dress: true },
+  { skin: "#9A6844", style: "trancas", top: "#FFE3B3", bottom: "#0B1440" },
+  { skin: "#6E4430", style: "afro", top: "#F3731B", bottom: "#0B1440" },
 ];
 
 const G = {
@@ -253,7 +253,7 @@ export function mountVoices({
   stage.prepend(renderer.domElement);
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog("#E1DFD5", 10, 24);
+  scene.fog = new THREE.Fog("#FFF6E5", 10, 24);
   const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
 
   scene.add(new THREE.HemisphereLight("#FFF6EA", "#B89A80", 1.25));
@@ -290,7 +290,7 @@ export function mountVoices({
       skin: r() < 0.12 ? LIGHT[k % LIGHT.length] : DARK[Math.floor(r() * DARK.length)],
       style: STYLES[Math.floor(r() * STYLES.length)],
       top: CLOTH[Math.floor(r() * CLOTH.length)],
-      bottom: "#2F2A26",
+      bottom: "#0B1440",
       dress: r() > 0.6,
       hair: elder ? GREY : HAIR,
       elder,
