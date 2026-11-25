@@ -122,31 +122,22 @@ export function HeroWordmark({
           priority
           sizes="100vw"
         />
+        <Image className="hero__logo" src="/img/logo-dlhi.svg" alt="dlhi" width={1453} height={698} priority unoptimized />
       </div>
 
       <div ref={bandRef} className="hero__band">
       <h1 ref={wmRef} className="hero__wm" data-wm aria-label={lines.join(" ")}>
         {lines.map((line, lineIdx) => (
           <span key={lineIdx} className="wm__line" aria-hidden="true">
-            {Array.from(line).map((char, charIdx) => {
-              if (char === " ") {
-                return (
-                  <span key={charIdx} className="l sp">
-                    {" "}
-                  </span>
-                );
-              }
-              const currentIndex = globalIndex++;
-              return (
-                <span
-                  key={charIdx}
-                  className="l"
-                  style={{ "--i": currentIndex } as React.CSSProperties}
-                >
-                  {char}
-                </span>
-              );
-            })}
+            {line.trim().split(/\s+/).map((word, wordIdx) => (
+              <span
+                key={wordIdx}
+                className="l"
+                style={{ "--i": globalIndex++ } as React.CSSProperties}
+              >
+                {word}
+              </span>
+            ))}
           </span>
         ))}
       </h1>

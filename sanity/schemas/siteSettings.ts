@@ -11,7 +11,7 @@ export const siteSettingsType = defineType({
       name: "siteName",
       title: "Nome do site / laboratório",
       type: "string",
-      initialValue: "LabHO — Laboratório de História Oral",
+      initialValue: "LabHO | Laboratório de História Oral",
       validation: (Rule) => Rule.required(),
     }),
     defineField({

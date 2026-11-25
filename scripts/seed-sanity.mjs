@@ -46,7 +46,7 @@ async function seed() {
   await client.createOrReplace({
     _id: "siteSettings",
     _type: "siteSettings",
-    siteName: "LabHO — Laboratório de História Oral",
+    siteName: "LabHO | Laboratório de História Oral",
     slogan: "Acervo de entrevistas do Laboratório de História Oral do Departamento de História da UFV.",
     email: "labho.dhi@ufv.br",
     endereco: "Departamento de História — UFV\nAv. P. H. Rolfs, s/n\nViçosa, MG · 36570-900",

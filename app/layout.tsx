@@ -31,9 +31,6 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s · ${settings.siteName}`,
     },
     description: settings.slogan,
-    icons: {
-      icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%23A8140F'/%3E%3Cpath d='M9 11h14a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-8l-5 4v-4H9a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z' fill='%23FFBD59'/%3E%3C/svg%3E",
-    },
   };
 }
 
