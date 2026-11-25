@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Newsreader, Inter_Tight } from "next/font/google";
+import { Marcellus, Newsreader, Inter_Tight } from "next/font/google";
 import "./globals.css";
 
 import { cms } from "@/lib/cms";
@@ -23,6 +23,13 @@ const interTight = Inter_Tight({
   weight: ["400", "500", "600"],
 });
 
+const marcellus = Marcellus({
+  subsets: ["latin"],
+  variable: "--display",
+  display: "swap",
+  weight: "400",
+});
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await cms.getSiteSettings();
   return {
@@ -42,7 +49,7 @@ export default async function RootLayout({
   const settings = await cms.getSiteSettings();
 
   return (
-    <html lang="pt-BR" className={`${newsreader.variable} ${interTight.variable}`}>
+    <html lang="pt-BR" className={`${newsreader.variable} ${interTight.variable} ${marcellus.variable}`}>
       <body className="antialiased">
         <a className="skip" href="#main">
           Pular para o conteúdo

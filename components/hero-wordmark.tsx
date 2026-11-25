@@ -125,6 +125,7 @@ export function HeroWordmark({
           priority
           sizes="100vw"
         />
+        <span className="hero__light" aria-hidden="true" />
         <Image className="hero__logo" src="/img/logo-dlhi.svg" alt="dlhi" width={1453} height={698} priority unoptimized />
       </div>
 
