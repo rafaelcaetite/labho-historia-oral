@@ -1,5 +1,6 @@
 import { createClient, type QueryParams } from "@sanity/client";
 import { draftMode } from "next/headers";
+import type { Boneco } from "@/lib/boneco";
 
 import {
   contatoPageFixture,
@@ -250,12 +251,14 @@ export const sanitySource: ContentSource = {
       destaque: string;
       slug: string;
       projetoTitle?: string;
+      boneco?: Boneco | null;
     } | null;
     const proj = /* groq */ `{
       title,
       destaque,
       "slug": slug.current,
-      "projetoTitle": projeto->title
+      "projetoTitle": projeto->title,
+      "boneco": boneco{pele, cabelo, corCabelo, roupa, corRoupa, idoso}
     }`;
     const res = await buscar<{ escolhidas: Item[] | null; padrao: Item[] | null }>(
       /* groq */ `{
@@ -274,6 +277,7 @@ export const sanitySource: ContentSource = {
         q: item.destaque,
         by: `${item.title}${item.projetoTitle ? ` · ${item.projetoTitle}` : ""}`,
         url: `/entrevista/${item.slug}`,
+        boneco: item.boneco ?? null,
       }));
     }
     return fixtureSource.getVozesDestaque();

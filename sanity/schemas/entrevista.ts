@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { UserIcon } from "@sanity/icons";
+import { CABELO, COR_CABELO, COR_ROUPA, PELE, ROUPA, paraLista } from "@/lib/boneco";
 
 export const entrevistaType = defineType({
   name: "entrevista",
@@ -38,6 +39,51 @@ export const entrevistaType = defineType({
       type: "text",
       rows: 2,
       description: "Uma frase marcante dita pela pessoa. Ter fala não coloca a entrevista sozinha na cena 3D: escolha quais viram bonequinhos em Página inicial > Entrevistas que viram bonequinhos.",
+    }),
+    defineField({
+      name: "boneco",
+      title: "Aparência do bonequinho",
+      type: "object",
+      description: "Escolha para parecer com a pessoa. Se ficar tudo em branco, vale o elenco padrão, que não tem relação com a pessoa.",
+      options: { collapsible: true, collapsed: false },
+      fields: [
+        defineField({
+          name: "pele",
+          title: "Tom de pele",
+          type: "string",
+          options: { list: paraLista(PELE), layout: "dropdown" },
+        }),
+        defineField({
+          name: "cabelo",
+          title: "Cabelo",
+          type: "string",
+          options: { list: paraLista(CABELO), layout: "dropdown" },
+        }),
+        defineField({
+          name: "corCabelo",
+          title: "Cor do cabelo",
+          type: "string",
+          options: { list: paraLista(COR_CABELO), layout: "dropdown" },
+        }),
+        defineField({
+          name: "roupa",
+          title: "Tipo de roupa",
+          type: "string",
+          options: { list: paraLista(ROUPA), layout: "dropdown" },
+        }),
+        defineField({
+          name: "corRoupa",
+          title: "Cor da roupa",
+          type: "string",
+          options: { list: paraLista(COR_ROUPA), layout: "dropdown" },
+        }),
+        defineField({
+          name: "idoso",
+          title: "Pessoa idosa",
+          description: "Corpo curvado e bengala. O cabelo fica grisalho se você não escolher outra cor.",
+          type: "boolean",
+        }),
+      ],
     }),
     defineField({
       name: "photo",

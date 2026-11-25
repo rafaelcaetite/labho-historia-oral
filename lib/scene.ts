@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { configurarBoneco, type Boneco, type PersonConfig } from "@/lib/boneco";
 
 const HAIR = "#17110D";
 const GREY = "#CFC9C0";
@@ -49,6 +50,7 @@ const G = {
   bun: new THREE.SphereGeometry(0.075, 10, 8),
   wrap: new THREE.SphereGeometry(0.152, 14, 8, 0, Math.PI * 2, 0, Math.PI * 0.62),
   wrapTop: new THREE.IcosahedronGeometry(0.11, 0),
+  long: new THREE.CapsuleGeometry(0.1, 0.22, 3, 8),
   braid: new THREE.CapsuleGeometry(0.028, 0.32, 3, 6),
   cane: new THREE.CylinderGeometry(0.017, 0.017, 0.9, 6),
   caneTop: new THREE.TorusGeometry(0.05, 0.016, 6, 12, Math.PI),
@@ -110,16 +112,6 @@ function mesh(
   return m;
 }
 
-interface PersonConfig {
-  skin: string;
-  style: string;
-  top: string;
-  bottom: string;
-  dress?: boolean;
-  hair?: string;
-  elder?: boolean;
-}
-
 interface Person {
   group: THREE.Group;
   body: THREE.Group;
@@ -165,13 +157,15 @@ function buildPerson(i: number, cfg: PersonConfig): Person {
   mesh(G.head, skin, 0, 0, 0, head).scale.set(0.92, 1.1, 0.98);
 
   if (style === "afro") mesh(G.afro, hair, 0, 0.07, -0.035, head).scale.set(1, 0.88, 0.95);
-  if (style === "curto" || style === "coque" || style === "trancas")
+  if (style === "curto" || style === "coque" || style === "trancas" || style === "longo")
     mesh(G.cap, hair, 0, 0.012, -0.008, head).rotation.x = -0.28;
+  if (style === "longo") mesh(G.long, hair, 0, -0.1, -0.1, head).scale.set(1.15, 1, 0.8);
   if (style === "coque") mesh(G.bun, hair, 0, 0.13, -0.1, head);
   if (style === "trancas")
     for (const s of [-1, 1]) mesh(G.braid, hair, s * 0.075, -0.13, -0.09, head).rotation.x = 0.18;
   if (style === "turbante") {
-    const c = CLOTH[(Math.abs(i) + 2) % CLOTH.length];
+    const k = (Math.abs(i) + 2) % CLOTH.length;
+    const c = CLOTH[k] === top ? CLOTH[(k + 1) % CLOTH.length] : CLOTH[k]; // pano não some na roupa
     mesh(G.wrap, c, 0, 0.02, -0.012, head).rotation.x = -0.22;
     mesh(G.wrapTop, c, 0, 0.16, -0.05, head).scale.set(1.15, 0.8, 1.1);
   }
@@ -213,7 +207,7 @@ const progressFor = (i: number, n: number) => (i / (n - 1) + 0.04) / 1.08;
 export interface MountVoicesOptions {
   stage: HTMLElement;
   section: HTMLElement;
-  vozes: Array<{ q: string; by: string; url: string }>;
+  vozes: Array<{ q: string; by: string; url: string; boneco?: Boneco | null }>;
   onActive: (index: number) => void;
   onPick: (index: number, scrollYTarget: number) => void;
 }
@@ -264,8 +258,8 @@ export function mountVoices({
   rim.position.set(-4, 3, -5);
   scene.add(rim);
 
-  const people = vozes.map((_, i) => {
-    const per = buildPerson(i, CAST[i % CAST.length]);
+  const people = vozes.map((v, i) => {
+    const per = buildPerson(i, configurarBoneco(v.boneco, CAST[i % CAST.length]));
     per.baseZ = i % 2 ? -0.35 : 0.2;
     per.group.position.set(i * GAP, 0, per.baseZ);
     scene.add(per.group);

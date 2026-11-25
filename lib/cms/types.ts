@@ -1,3 +1,4 @@
+import type { Boneco } from "@/lib/boneco";
 export interface CmsImage {
   url: string;
   alt?: string;
@@ -120,6 +121,7 @@ export interface VozDestaque {
   q: string;
   by: string;
   url: string;
+  boneco?: Boneco | null;
 }
 
 export interface ContentSource {
