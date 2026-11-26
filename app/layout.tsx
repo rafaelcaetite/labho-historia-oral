@@ -13,7 +13,6 @@ const newsreader = Newsreader({
   subsets: ["latin"],
   variable: "--serif",
   display: "swap",
-  weight: "400",
   style: ["normal", "italic"],
 });
 

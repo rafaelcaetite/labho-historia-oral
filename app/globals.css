@@ -191,7 +191,7 @@ body:has(.home-page) .nav[data-wm-on] .nav__wm { opacity: 1; }
   .nav__list .is-contato { display: block; }
 }
 
-main { min-height: 60vh; outline: none; }
+main { min-height: 60vh; outline: none; animation: fade .8s var(--ease) both; }
 @keyframes fade { from { opacity: 0; } }
 
 /* ================= mídia ================= */
@@ -213,16 +213,6 @@ main { min-height: 60vh; outline: none; }
 .split .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .1em; margin-bottom: -.1em; }
 .split .w > span { display: inline-block; transform: translateY(105%); transition: transform 1.2s var(--ease); transition-delay: calc(var(--i) * 55ms + .1s); }
 .split[data-in] .w > span { transform: none; }
-/* o que abre a página anima só com CSS, desde o primeiro paint: não espera o JS (LCP) */
-/* sem partir de opacidade 0: o Chrome não conta FCP/LCP de conteúdo invisível */
-@keyframes rvIn { from { opacity: 1; transform: translateY(24px); } to { opacity: 1; transform: none; } }
-@keyframes wIn { from { transform: translateY(105%); } to { transform: none; } }
-.phead .rv, .iv .rv { animation: rvIn 1.1s var(--ease) var(--d, 0s) both; }
-.phead .split .w > span, .iv .split .w > span { animation: wIn 1.2s var(--ease) calc(var(--i) * 55ms + .1s) both; }
-@media (max-width: 860px) {
-  .intro__text .rv { animation: rvIn 1.1s var(--ease) var(--d, 0s) both; }
-  .intro__text .split .w > span { animation: wIn 1.2s var(--ease) calc(var(--i) * 55ms + .1s) both; }
-}
 
 /* ================= intro (home) ================= */
 .intro { padding: clamp(80px, 11vw, 170px) var(--gut); display: grid; grid-template-columns: 5fr 6fr; gap: clamp(32px, 5vw, 96px); align-items: start; }
