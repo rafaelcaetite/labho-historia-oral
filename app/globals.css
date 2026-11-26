@@ -22,6 +22,8 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+/* barra de rolagem: vermelho da faixa um tom mais suave, sobre o creme do fundo */
+html { scrollbar-color: #B0392E var(--sand); }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 body {
