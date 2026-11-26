@@ -20,6 +20,7 @@ interface MediaPlaceholderProps {
   style?: React.CSSProperties;
   aspectRatio?: string;
   priority?: boolean;
+  sizes?: string;
 }
 
 export function MediaPlaceholder({
@@ -31,6 +32,7 @@ export function MediaPlaceholder({
   style,
   aspectRatio,
   priority = false,
+  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
 }: MediaPlaceholderProps) {
   const c = PALETTE[Math.abs(seed) % PALETTE.length];
   const imageUrl = typeof image === "string" ? image : image?.url;
@@ -50,7 +52,7 @@ export function MediaPlaceholder({
           src={imageUrl}
           alt={imageAlt || "Imagem do LabHO"}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes={sizes}
           priority={priority}
           style={{ objectFit: "cover" }}
         />

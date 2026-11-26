@@ -67,6 +67,7 @@ export default async function AcervoPage() {
                 image={p.coverImage}
                 alt={p.title}
                 seed={i}
+                priority={i === 0}
               />
               <div className="proj__txt">
                 <p className="eyebrow">

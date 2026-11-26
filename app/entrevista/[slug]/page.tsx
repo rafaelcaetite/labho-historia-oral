@@ -43,12 +43,9 @@ export default async function EntrevistaPage({ params }: PageProps) {
   return (
     <>
       <article className="iv">
-        <MediaPlaceholder
-          image={entrevista.photo}
-          className="iv__photo rv"
-          aspectRatio="4/5"
-          priority
-        />
+        <div className="iv__photo rv">
+          <MediaPlaceholder image={entrevista.photo} aspectRatio="4/5" priority />
+        </div>
 
         <div>
           <nav className="crumbs rv" aria-label="Trilha">

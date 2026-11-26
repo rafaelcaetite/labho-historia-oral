@@ -70,12 +70,14 @@ export function Footer({ settings }: FooterProps) {
             <h2 className="eyebrow">Apoio</h2>
             <div className="logos">
               {settings.apoioLogos.map((apoio, idx) => {
+                // URL do Sanity traz o tamanho real (…-430x174.png); sem isso, cai no 180x80
+                const [, w = "180", h = "80"] = apoio.image.url.match(/-(\d+)x(\d+)\.\w+/) ?? [];
                 const img = (
                   <Image
                     src={apoio.image.url}
                     alt={apoio.image.alt || apoio.title}
-                    width={180}
-                    height={80}
+                    width={+w}
+                    height={+h}
                   />
                 );
 

@@ -13,6 +13,7 @@ const newsreader = Newsreader({
   subsets: ["latin"],
   variable: "--serif",
   display: "swap",
+  weight: "400",
   style: ["normal", "italic"],
 });
 
@@ -20,7 +21,7 @@ const interTight = Inter_Tight({
   subsets: ["latin"],
   variable: "--sans",
   display: "swap",
-  weight: ["400", "500", "600"],
+  weight: ["400", "500"],
 });
 
 const marcellus = Marcellus({

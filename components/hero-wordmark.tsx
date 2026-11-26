@@ -70,7 +70,8 @@ export function HeroWordmark({
       const travel = heroRect.height - band.offsetHeight / 2 - navCenter;
       const t = Math.min(1, Math.max(0, 1 - (bandCenter - navCenter) / travel));
 
-      wm.classList.add("is-fixed");
+      // parado no topo, fica no fluxo da faixa (mesmo lugar): só vira fixed quando começa a viajar
+      wm.classList.toggle("is-fixed", t > 0);
       wm.style.setProperty("--y", `${Math.max(bandCenter, navCenter)}px`);
       wm.style.setProperty("--s", (1 + (sEnd - 1) * t).toFixed(4));
       wm.classList.toggle("is-gone", t >= 1);
@@ -126,7 +127,10 @@ export function HeroWordmark({
           sizes="100vw"
         />
         <span className="hero__light" aria-hidden="true" />
-        <Image className="hero__logo" src="/img/logo-dlhi.svg" alt="dlhi" width={1453} height={698} priority unoptimized />
+        <div className="hero__logos">
+          <Image src="/img/logo-dlhi.svg" alt="dlhi" width={1453} height={698} priority unoptimized />
+          <Image src="/img/logo-ufv.png" alt="Universidade Federal de Viçosa" width={978} height={769} priority unoptimized />
+        </div>
       </div>
 
       <div ref={bandRef} className="hero__band">
@@ -151,7 +155,7 @@ export function HeroWordmark({
         type="button"
         onClick={handleScrollDown}
         className="hero__scroll"
-        aria-label="Rolar para o conteúdo"
+        aria-label="Role para o conteúdo"
       >
         <span className="hero__scroll-label">Role</span>
         <span className="hero__scroll-icon" aria-hidden="true">

@@ -65,10 +65,13 @@ em { font-style: italic; font-weight: 400; }
 @media (prefers-reduced-motion: reduce) {
   .hero__light { animation: none; opacity: .5; }
 }
-.hero__art .hero__logo {
+.hero__art .hero__logos {
   position: absolute; top: clamp(14px, 2vw, 32px); right: clamp(14px, 2.2vw, 36px);
-  width: clamp(60px, 6.8vw, 120px); height: auto; filter: drop-shadow(0 0 5px rgb(11 20 64 / .4));
+  display: flex; align-items: center; gap: clamp(10px, 1.1vw, 18px);
+  filter: drop-shadow(0 0 5px rgb(11 20 64 / .4));
 }
+.hero__logos img { position: static; width: auto; object-fit: contain; height: clamp(22px, 2.5vw, 42px); }
+.hero__logos img + img { border-left: 1px solid rgb(255 255 255 / .7); padding-left: clamp(10px, 1.1vw, 18px); box-sizing: content-box; }
 .hero__band {
   position: relative; min-height: clamp(56px, 7vh, 76px); background: var(--band); color: #fff;
   display: flex; align-items: center; justify-content: center;
@@ -81,7 +84,7 @@ em { font-style: italic; font-weight: 400; }
 .hero__wm { position: relative; z-index: 3; margin: 0; font-size: clamp(16px, 1.85vw, 34px); line-height: 1.3; }
 .hero__wm .wm__line + .wm__line, .hero__wm .l + .l { margin-left: .98em; }
 .hero__wm .l { display: inline-block; text-indent: 0; opacity: 0; transform: translateY(.5em); filter: blur(8px); animation: letter 1.1s var(--ease) forwards; animation-delay: calc(var(--i) * 160ms + .25s); }
-@keyframes letter { to { opacity: 1; transform: none; filter: blur(0); } }
+@keyframes letter { to { opacity: 1; transform: none; filter: none; } }
 @keyframes rise { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
 
 /* JS: o wordmark viaja do centro do hero até o centro do cabeçalho */
@@ -188,7 +191,7 @@ body:has(.home-page) .nav[data-wm-on] .nav__wm { opacity: 1; }
   .nav__list .is-contato { display: block; }
 }
 
-main { min-height: 60vh; outline: none; animation: fade .8s var(--ease) both; }
+main { min-height: 60vh; outline: none; }
 @keyframes fade { from { opacity: 0; } }
 
 /* ================= mídia ================= */
@@ -206,10 +209,20 @@ main { min-height: 60vh; outline: none; animation: fade .8s var(--ease) both; }
 
 /* revelações */
 .rv { opacity: 0; transform: translateY(24px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); transition-delay: var(--d, 0s); }
-.rv.in { opacity: 1; transform: none; }
+.rv[data-in] { opacity: 1; transform: none; }
 .split .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .1em; margin-bottom: -.1em; }
 .split .w > span { display: inline-block; transform: translateY(105%); transition: transform 1.2s var(--ease); transition-delay: calc(var(--i) * 55ms + .1s); }
-.split.in .w > span { transform: none; }
+.split[data-in] .w > span { transform: none; }
+/* o que abre a página anima só com CSS, desde o primeiro paint: não espera o JS (LCP) */
+/* sem partir de opacidade 0: o Chrome não conta FCP/LCP de conteúdo invisível */
+@keyframes rvIn { from { opacity: 1; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes wIn { from { transform: translateY(105%); } to { transform: none; } }
+.phead .rv, .iv .rv { animation: rvIn 1.1s var(--ease) var(--d, 0s) both; }
+.phead .split .w > span, .iv .split .w > span { animation: wIn 1.2s var(--ease) calc(var(--i) * 55ms + .1s) both; }
+@media (max-width: 860px) {
+  .intro__text .rv { animation: rvIn 1.1s var(--ease) var(--d, 0s) both; }
+  .intro__text .split .w > span { animation: wIn 1.2s var(--ease) calc(var(--i) * 55ms + .1s) both; }
+}
 
 /* ================= intro (home) ================= */
 .intro { padding: clamp(80px, 11vw, 170px) var(--gut); display: grid; grid-template-columns: 5fr 6fr; gap: clamp(32px, 5vw, 96px); align-items: start; }
@@ -363,7 +376,7 @@ main { min-height: 60vh; outline: none; animation: fade .8s var(--ease) both; }
 
 /* entrevista */
 .iv { padding: clamp(56px, 8vw, 120px) var(--gut) clamp(56px, 8vw, 100px); display: grid; grid-template-columns: 5fr 7fr; gap: clamp(28px, 6vw, 96px); align-items: start; }
-.iv__photo { aspect-ratio: 4/5; position: sticky; top: calc(var(--nav-h) + 24px); }
+.iv__photo { position: sticky; top: calc(var(--nav-h) + 24px); }
 .iv h1 { margin: 0 0 32px; font: 400 clamp(40px, 4.6vw, 76px)/1 var(--serif, Georgia, serif); letter-spacing: -.025em; color: var(--sun); }
 .iv__bio p { color: var(--ink-2); max-width: 60ch; line-height: 1.6; margin-bottom: 1em; }
 .iv__bio p:first-child { color: var(--ink); font-size: clamp(20px, 1.6vw, 25px); line-height: 1.35; }

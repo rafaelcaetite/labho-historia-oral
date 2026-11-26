@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { mountVoices } from "@/lib/scene";
 import type { VozDestaque } from "@/lib/cms/types";
 
 interface VoicesSectionProps {
@@ -27,26 +26,42 @@ export function VoicesSection({
     if (!stage || !section || vozes.length === 0) return;
 
     let current = 0;
+    let dispose: (() => void) | undefined;
+    let cancelled = false;
 
-    const dispose = mountVoices({
-      stage,
-      section,
-      vozes,
-      onActive: (i) => {
-        current = i;
-        setActiveIndex(i);
+    // three.js só baixa e monta quando a seção se aproxima: fora do carregamento inicial
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        import("@/lib/scene").then(({ mountVoices }) => {
+          if (cancelled) return;
+          dispose = mountVoices({
+            stage,
+            section,
+            vozes,
+            onActive: (i) => {
+              current = i;
+              setActiveIndex(i);
+            },
+            onPick: (i, scrollYTarget) => {
+              if (i === current && vozes[i]?.url) {
+                router.push(vozes[i].url);
+              } else {
+                window.scrollTo({ top: scrollYTarget, behavior: "smooth" });
+              }
+            },
+          });
+        });
       },
-      onPick: (i, scrollYTarget) => {
-        if (i === current && vozes[i]?.url) {
-          router.push(vozes[i].url);
-        } else {
-          window.scrollTo({ top: scrollYTarget, behavior: "smooth" });
-        }
-      },
-    });
+      { rootMargin: "800px 0px" },
+    );
+    io.observe(section);
 
     return () => {
-      dispose();
+      cancelled = true;
+      io.disconnect();
+      dispose?.();
     };
   }, [vozes, router]);
 

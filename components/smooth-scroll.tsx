@@ -35,12 +35,13 @@ export function SmoothScroll() {
       rafId = requestAnimationFrame(raf);
     }
 
-    // Revelações em scroll (.rv, .split)
+    // Revelações em scroll (.rv, .split). Atributo, não classe: o React não apaga ao reconciliar className.
+    // MutationObserver pega o conteúdo que entra numa navegação client-side.
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("in");
+            entry.target.setAttribute("data-in", "");
             observer.unobserve(entry.target);
           }
         });
@@ -49,16 +50,17 @@ export function SmoothScroll() {
     );
 
     const observeElements = () => {
-      document.querySelectorAll(".rv, .split").forEach((el) => {
+      document.querySelectorAll(".rv:not([data-in]), .split:not([data-in])").forEach((el) => {
         observer.observe(el);
       });
     };
 
     observeElements();
-    const timeout = setTimeout(observeElements, 500);
+    const mutations = new MutationObserver(observeElements);
+    mutations.observe(document.body, { childList: true, subtree: true });
 
     return () => {
-      clearTimeout(timeout);
+      mutations.disconnect();
       observer.disconnect();
       if (rafId) cancelAnimationFrame(rafId);
       lenis?.destroy();

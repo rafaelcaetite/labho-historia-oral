@@ -99,6 +99,8 @@ export default async function EventoPage({ params }: PageProps) {
         <MediaPlaceholder
           image={evento.coverImage}
           className="phead__media rv"
+          priority
+          sizes="100vw"
           aspectRatio="21/8"
         />
       </header>

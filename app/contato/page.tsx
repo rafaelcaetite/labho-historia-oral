@@ -47,6 +47,8 @@ export default async function ContatoPage() {
         <MediaPlaceholder
           image={contatoData.image}
           className="phead__media rv"
+          priority
+          sizes="100vw"
           aspectRatio="21/8"
           seed={5}
         />

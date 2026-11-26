@@ -48,6 +48,8 @@ export default async function LaboratorioPage() {
         <MediaPlaceholder
           image={sobreData.image}
           className="phead__media rv"
+          priority
+          sizes="100vw"
           aspectRatio="21/8"
           seed={3}
         />
